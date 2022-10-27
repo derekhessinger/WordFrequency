@@ -37,17 +37,21 @@ public class BSTMap<K extends Comparable<K>, V> implements MapSet<K, V>{
 	private Node root;
 	private int size;
 
+
+	// Constructor for BSTMap
 	public BSTMap(){
 
 		root = null;
 		size = 0;
 	}
 
+	// Returns value to key recursively
 	public V get(K key){
 
 		return get(key, root);
 	}
 
+	// Helper function to return value from key
 	private V get(K key, Node cur){
 
 		if (cur == null){
@@ -71,17 +75,20 @@ public class BSTMap<K extends Comparable<K>, V> implements MapSet<K, V>{
 		}
 	}
 
+	// Returns the size of the BST
 	public int size(){
 
 		return this.size;
 	}
 
+	// Clears the BST
 	public void clear(){
 
 		this.root = null;
 		this.size = 0;
 	}
 
+	// Puts a value at key k passed
 	private V put(K key, V value, Node cur) {
 
 	    if (key.compareTo(cur.getKey()) < 0){
@@ -120,25 +127,29 @@ public class BSTMap<K extends Comparable<K>, V> implements MapSet<K, V>{
 	    }
 	}
 
+	// Returns true if the key passed is in the BST
 	public boolean containsKey(K key){
 
-		if (this.getKey() == null){
-
-			return false;
-		}
-		else{
+		if (this.get(key) != null){
 
 			return true;
 		}
+
+		else{
+
+			return false;
+		}
 	}
 
+	// Returns an array list of all keys in the map ordered from least to greatest
 	public ArrayList<K> keySet(){
 
 		ArrayList<K> output = new ArrayList<K>();
 		keySet(root, output);
 	}
 
-	public void keySet(Node cur, ArrayList<K> output){
+	// Helper function for keySet()
+	private void keySet(Node cur, ArrayList<K> output){
 
 		if (cur == null){
 
@@ -150,6 +161,7 @@ public class BSTMap<K extends Comparable<K>, V> implements MapSet<K, V>{
 		keySet(cur.right, output);
 	}
 
+	// Returns an array lit of all values in the map in order from least to greatest
 	public ArrayList<V> values(){
 
 		ArrayList<V> output = new ArrayList<V>();
@@ -165,6 +177,7 @@ public class BSTMap<K extends Comparable<K>, V> implements MapSet<K, V>{
 		return output;
 	}
 	
+	// Returns an array list of all KVP in the map ordered from least to greatest
 	public ArrayList<KeyValuePair<K, V>> entrySet(){
 
 		ArrayList<KeyValuePair<K, V>> kvpList = new ArrayList<KeyValuePair<K, V>>();
@@ -181,9 +194,38 @@ public class BSTMap<K extends Comparable<K>, V> implements MapSet<K, V>{
 		return kvpList;
 	}
 
+	// To string method
 	public String toString(){
 
-		
+		String str = "";
+		str += "root:	" + root + "\n";
+
+
+	}
+
+	private String toString(Node n, String str){
+
+		int countLeft = 1;
+		int countRight = 1;
+
+		if (n.left != null && n.right != null){
+
+			str += "left:	" + "	" * countLeft + n.left.toString() + "\n";
+			str += "right:	" + "	" * countLeft + n.right.toString() + "\n";
+			this.toString(n.left, str);
+			this.toString(n.right, str);
+		}
+
+		else if(n.right != null){
+
+			str += "right:	" + "	" * countLeft + n.right.toString() + "\n";
+			this.toString(n.right, str);
+		}
+
+		else{
+
+			return str;
+		}
 	}
 }
 
