@@ -64,7 +64,7 @@ public class BSTMap<K extends Comparable<K>, V> implements MapSet<K, V>{
 
 		else if (cur.getKey().compareTo(key) > 0){
 
-			return getKey(key, cur.left);
+			return get(key, cur.left);
 		}
 
 		else{
@@ -86,18 +86,32 @@ public class BSTMap<K extends Comparable<K>, V> implements MapSet<K, V>{
 		this.size = 0;
 	}
 
+	public V put(K key, V value){
+
+		if (root == null){
+
+			KeyValuePair kvp = new KeyValuePair(key, value);
+			root = new Node(kvp);
+			size++;
+			return null;
+		}
+
+		return put(key, value, root);
+	}
+
 	// Puts a value at key k passed
-	public V put(K key, V value, Node cur) {
+	private V put(K key, V value, Node cur) {
 
 	    if (key.compareTo(cur.getKey()) < 0){
 
 	        if (cur.left != null){
 
-	            return key.put(cur.left);
+	            return this.put(key, value, cur.left);
 	        } 
 	        else {
 	            //insert a new Node with the given KeyValuePair to the left of cur
-	            Node newNode = new Node(key, value);
+	            KeyValuePair kvp = new KeyValuePair(key, value);
+	            Node newNode = new Node(kvp);
 	            cur.left = newNode;
 	            return null;
 	        }
@@ -106,12 +120,13 @@ public class BSTMap<K extends Comparable<K>, V> implements MapSet<K, V>{
 
 	        if (cur.right != null){
 
-	            return key.put(cur.right);
+	            return this.put(key, value, cur.right);
 	        } 
 	        else {
 
 	            //insert a new Node with the given KeyValuePair to the right of cur
-	            Node newNode = new Node(key, value);
+	            KeyValuePair kvp = new KeyValuePair(key, value);
+	            Node newNode = new Node(kvp);
 	            cur.right = newNode;
 	            return null;
 	        }
@@ -120,7 +135,7 @@ public class BSTMap<K extends Comparable<K>, V> implements MapSet<K, V>{
 
 	        //Set the value of cur's KeyValuePair to be the given value and return the old one
 	    	V oldVal = cur.getValue();
-	    	cur.setValue(value);
+	    	cur.kvp.setValue(value);
 	    	return oldVal;
 	    }
 	}
@@ -144,6 +159,7 @@ public class BSTMap<K extends Comparable<K>, V> implements MapSet<K, V>{
 
 		ArrayList<K> output = new ArrayList<K>();
 		keySet(root, output);
+		return output;
 	}
 
 	// Helper function for keySet()
@@ -163,13 +179,14 @@ public class BSTMap<K extends Comparable<K>, V> implements MapSet<K, V>{
 
 		ArrayList<V> output = new ArrayList<V>();
 		values(root, output);
+		return output;
 	}
 
-	private void values(Node cur, ArrayList<K> output){
+	private void values(Node cur, ArrayList<V> output){
 
 		if (cur == null){
 
-			return
+			return;
 		}
 
 		values(cur.left, output);
@@ -202,7 +219,7 @@ public class BSTMap<K extends Comparable<K>, V> implements MapSet<K, V>{
 
 		for (K k: keys){
 
-			V v = k.getValue();
+			V v = this.get(k);
 			KeyValuePair kvp = new KeyValuePair(k, v);
 			kvpList.add(kvp);
 		}
@@ -248,7 +265,7 @@ public class BSTMap<K extends Comparable<K>, V> implements MapSet<K, V>{
 
 	public static void main(String[] args){
 
-		BSTMap map = new BSTMap();
+		BSTMap<String, Integer> map = new BSTMap<String, Integer>();
 	}
 }
 
