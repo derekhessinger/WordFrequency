@@ -32,6 +32,7 @@ public class BSTMap<K extends Comparable<K>, V> implements MapSet<K, V>{
 		}
 	}
 
+	// Fields for BSTMap
 	private Node root;
 	private int size;
 
@@ -43,6 +44,11 @@ public class BSTMap<K extends Comparable<K>, V> implements MapSet<K, V>{
 		size = 0;
 	}
 
+	public String getObjType(){
+
+		return "BSTMap";
+	}
+
 	// Returns value to key recursively
 	public V get(K key){
 
@@ -52,21 +58,25 @@ public class BSTMap<K extends Comparable<K>, V> implements MapSet<K, V>{
 	// Helper function to return value from key
 	private V get(K key, Node cur){
 
+		// If cur is null return null
 		if (cur == null){
 
 			return null;
 		}
 
+		// If the Node key is less than the key passed, go to right
 		if (cur.getKey().compareTo(key) < 0){
 
 			return get(key, cur.right);
 		}
 
+		// If the Node key is greater than the key passed, go to left
 		else if (cur.getKey().compareTo(key) > 0){
 
 			return get(key, cur.left);
 		}
 
+		// If this line is reached, the Node key and key passed must be equal
 		else{
 
 			return cur.getValue();
@@ -86,8 +96,10 @@ public class BSTMap<K extends Comparable<K>, V> implements MapSet<K, V>{
 		this.size = 0;
 	}
 
+	// Associates the specified value with the specified key in this map
 	public V put(K key, V value){
 
+		// If root is null, create a new node and set root to it
 		if (root == null){
 
 			KeyValuePair kvp = new KeyValuePair(key, value);
@@ -113,6 +125,7 @@ public class BSTMap<K extends Comparable<K>, V> implements MapSet<K, V>{
 	            KeyValuePair kvp = new KeyValuePair(key, value);
 	            Node newNode = new Node(kvp);
 	            cur.left = newNode;
+	            size++;
 	            return null;
 	        }
 	    } 
@@ -128,6 +141,7 @@ public class BSTMap<K extends Comparable<K>, V> implements MapSet<K, V>{
 	            KeyValuePair kvp = new KeyValuePair(key, value);
 	            Node newNode = new Node(kvp);
 	            cur.right = newNode;
+	            size++;
 	            return null;
 	        }
 	    } 
@@ -194,22 +208,6 @@ public class BSTMap<K extends Comparable<K>, V> implements MapSet<K, V>{
 		values(cur.right, output);
 	}
 
-	// // Returns an array lit of all values in the map in order from least to greatest
-	// public ArrayList<V> values(){
-
-	// 	ArrayList<V> output = new ArrayList<V>();
-
-	// 	ArrayList<K> keys = this.keySet();
-		
-	// 	for (K k: keys){
-
-	// 		V val = k.getValue();
-	// 		output.add(val);
-	// 	}
-
-	// 	return output;
-	// }
-	
 	// Returns an array list of all KVP in the map ordered from least to greatest
 	public ArrayList<KeyValuePair<K, V>> entrySet(){
 
@@ -227,49 +225,49 @@ public class BSTMap<K extends Comparable<K>, V> implements MapSet<K, V>{
 		return kvpList;
 	}
 
-	// // To string method
-	// public String toString(){
+	public String toString(){
 
-	// 	String str = "";
-	// 	str += "root:	" + root + "\n";
-	// 	str = this.toString(root, str);
-	// 	return str;
-	// }
+		return toString(root, 0);
+	}
 
-	// private String toString(Node n, String str){
+	private String toString(Node root, int counter){
 
-	// 	int countLeft = 1;
-	// 	int countRight = 1;
+		String str = "";
 
-	// 	if (n.left != null && n.right != null){
+		if (root == null){
 
-	// 		str += "left:	" + "	" * countLeft + n.left.toString() + "\n";
-	// 		str += "right:	" + "	" * countLeft + n.right.toString() + "\n";
-	// 		countLeft+=1;
-	// 		countRight+=1;
-	// 		this.toString(n.left, str);
-	// 		this.toString(n.right, str);
-	// 	}
+			return str;
+		}
 
-	// 	else if(n.right != null){
+		// set the root as first
+		if (counter == 0){
+			str += "root:\t" + root.kvp.toString() + "\n";
+		}
+		else{
 
-	// 		str += "right:	" + "	" * countLeft + n.right.toString() + "\n";
-	// 		this.toString(n.right, str);
-	// 	}
+			str += "\t".repeat(counter) + root.kvp.toString() + "\n";
+		}
 
-	// 	else{
+		if (root.left != null){
 
-	// 		return str;
-	// 	}
-	// }
+			str += "left:\t" + toString(root.left, counter+1);
+		}
+		if (root.right != null){
 
+			str += "right:\t" + toString(root.right, counter+1);
+		}
+		return str;
+	}
 	public static void main(String[] args){
 
 		BSTMap<String, Integer> map = new BSTMap<String, Integer>();
+
+		map.put("one", 1);
+
+		System.out.println(map);
+
 	}
 }
-
-
 
 
 
