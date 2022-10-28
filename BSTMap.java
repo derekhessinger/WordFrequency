@@ -1,11 +1,9 @@
 /*
-*
-*
-*
-*
+* File: BSTMap.java
+* Derek Hessinger
+* CS231
+* 10/27/22
 */
-
-
 
 import java.util.ArrayList;
 
@@ -89,7 +87,7 @@ public class BSTMap<K extends Comparable<K>, V> implements MapSet<K, V>{
 	}
 
 	// Puts a value at key k passed
-	private V put(K key, V value, Node cur) {
+	public V put(K key, V value, Node cur) {
 
 	    if (key.compareTo(cur.getKey()) < 0){
 
@@ -161,21 +159,39 @@ public class BSTMap<K extends Comparable<K>, V> implements MapSet<K, V>{
 		keySet(cur.right, output);
 	}
 
-	// Returns an array lit of all values in the map in order from least to greatest
 	public ArrayList<V> values(){
 
 		ArrayList<V> output = new ArrayList<V>();
+		values(root, output);
+	}
 
-		ArrayList<K> keys = this.keySet();
-		
-		for (K k: keys){
+	private void values(Node cur, ArrayList<K> output){
 
-			V val = k.getValue();
-			output.add(val);
+		if (cur == null){
+
+			return
 		}
 
-		return output;
+		values(cur.left, output);
+		output.add(cur.getValue());
+		values(cur.right, output);
 	}
+
+	// // Returns an array lit of all values in the map in order from least to greatest
+	// public ArrayList<V> values(){
+
+	// 	ArrayList<V> output = new ArrayList<V>();
+
+	// 	ArrayList<K> keys = this.keySet();
+		
+	// 	for (K k: keys){
+
+	// 		V val = k.getValue();
+	// 		output.add(val);
+	// 	}
+
+	// 	return output;
+	// }
 	
 	// Returns an array list of all KVP in the map ordered from least to greatest
 	public ArrayList<KeyValuePair<K, V>> entrySet(){
@@ -186,7 +202,7 @@ public class BSTMap<K extends Comparable<K>, V> implements MapSet<K, V>{
 
 		for (K k: keys){
 
-			V v = key.getValue();
+			V v = k.getValue();
 			KeyValuePair kvp = new KeyValuePair(k, v);
 			kvpList.add(kvp);
 		}
@@ -194,38 +210,45 @@ public class BSTMap<K extends Comparable<K>, V> implements MapSet<K, V>{
 		return kvpList;
 	}
 
-	// To string method
-	public String toString(){
+	// // To string method
+	// public String toString(){
 
-		String str = "";
-		str += "root:	" + root + "\n";
+	// 	String str = "";
+	// 	str += "root:	" + root + "\n";
+	// 	str = this.toString(root, str);
+	// 	return str;
+	// }
 
+	// private String toString(Node n, String str){
 
-	}
+	// 	int countLeft = 1;
+	// 	int countRight = 1;
 
-	private String toString(Node n, String str){
+	// 	if (n.left != null && n.right != null){
 
-		int countLeft = 1;
-		int countRight = 1;
+	// 		str += "left:	" + "	" * countLeft + n.left.toString() + "\n";
+	// 		str += "right:	" + "	" * countLeft + n.right.toString() + "\n";
+	// 		countLeft+=1;
+	// 		countRight+=1;
+	// 		this.toString(n.left, str);
+	// 		this.toString(n.right, str);
+	// 	}
 
-		if (n.left != null && n.right != null){
+	// 	else if(n.right != null){
 
-			str += "left:	" + "	" * countLeft + n.left.toString() + "\n";
-			str += "right:	" + "	" * countLeft + n.right.toString() + "\n";
-			this.toString(n.left, str);
-			this.toString(n.right, str);
-		}
+	// 		str += "right:	" + "	" * countLeft + n.right.toString() + "\n";
+	// 		this.toString(n.right, str);
+	// 	}
 
-		else if(n.right != null){
+	// 	else{
 
-			str += "right:	" + "	" * countLeft + n.right.toString() + "\n";
-			this.toString(n.right, str);
-		}
+	// 		return str;
+	// 	}
+	// }
 
-		else{
+	public static void main(String[] args){
 
-			return str;
-		}
+		BSTMap map = new BSTMap();
 	}
 }
 
