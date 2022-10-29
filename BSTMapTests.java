@@ -149,13 +149,42 @@ public class BSTMapTests{
 			map1.put("first", 1);
 			map1.put("second", 2);
 			map1.put("third", 3);
+
 			// verify
 			System.out.println(map1.keySet() + " == [first, second, third]");
 
 			// test
-			assert map1.keySet() ==  : "Error in BSTMap::keySet()";
+			//assert map1.keySet() ==  : "Error in BSTMap::keySet()";
 		}
 
-		
+		// case 8: testing values() ****Finish test****
+		{
+			System.out.println("TESTING: values()");
+
+			// setup
+			BSTMap<String, Integer> map1 = new BSTMap<String, Integer>();
+			map1.put("first", 1);
+			map1.put("second", 2);
+			map1.put("third", 3);
+
+			// verify
+			System.out.println(map1.values() + " == [1, 2, 3]");
+
+			// TODO: add test
+		}
+
+		// case 9: testing entrySet() ***FINISH TEST****
+		{
+			System.out.println("TESTING: entrySet()");
+
+			// setup
+			BSTMap<String, Integer> map1 = new BSTMap<String, Integer>();
+			map1.put("first", 1);
+			map1.put("second", 2);
+			map1.put("third", 3);
+
+			// verify
+			System.out.println(map1.entrySet() + " == [<first -> 1>, <second -> 2>, <third -> 3>]");
+		}
 	}
 }
