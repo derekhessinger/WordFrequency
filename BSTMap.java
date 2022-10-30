@@ -263,8 +263,10 @@ public class BSTMap<K extends Comparable<K>, V> implements MapSet<K, V>{
 		BSTMap<String, Integer> map = new BSTMap<String, Integer>();
 
 		map.put("one", 1);
+		map.put("two", 2);
+		map.put("three", 3);
 
-		System.out.println(map);
+		System.out.println(map.entrySet());
 
 	}
 }
