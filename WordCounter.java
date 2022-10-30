@@ -9,6 +9,10 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Scanner;
+import java.io.File; 
+import java.io.FileWriter;
 
 public class WordCounter{
 
@@ -39,38 +43,39 @@ public class WordCounter{
 			// start a while loop that loops while line isn't null
 			while(line != null){
 
-			// split line into words. The regular expression can be interpreted
-			// as split on anything that is not (^) (a-z or A-Z or 0-9 or ').
-			String[] words = line.split("[^a-zA-Z0-9']");
+				// split line into words. The regular expression can be interpreted
+				// as split on anything that is not (^) (a-z or A-Z or 0-9 or ').
+				String[] words = line.split("[^a-zA-Z0-9']");
 
-			for (int i = 0; i < words.length; i++) {
+				for (int i = 0; i < words.length; i++) {
 
-				String word = words[i].trim().toLowerCase();
+					String word = words[i].trim().toLowerCase();
 
-				// Check for a word of length 0 and not process it
-				if (word.length()>0){
+					// Check for a word of length 0 and not process it
+					if (word.length()>0){
 
-					// If the word is already in the tree
-					if (this.tree.containsKey(word) == true){
+						// If the word is already in the tree
+						if (this.tree.containsKey(word) == true){
 
-						// Get its value and update by one
-						int value = this.tree.get(word);
-						value += 1;
-						this.tree.put(word, value);
-						this.total += 1;
-					}
-
-					// If the word is not in the tree
-					else{
-
-						this.tree.put(word, 1);
-						this.total += 1;
+							// Get its value and update by one
+							int value = this.tree.get(word);
+							value += 1;
+							this.tree.put(word, value);
+							this.total += 1;
 						}
-					}
-			  	}
-		    }
-      	br.close();
-    	}
+
+						// If the word is not in the tree
+						else{
+
+							this.tree.put(word, 1);
+							this.total += 1;
+							}
+						}
+				  	}
+				  	line = br.readLine();
+		    	}
+      		br.close();
+    		}
     	catch(FileNotFoundException ex) {
 
       	System.out.println("WordCounter.analyze():: unable to open file " + filename );
@@ -98,7 +103,46 @@ public class WordCounter{
 
   	public double getFrequency(String word){
 
-  		double result = this.tree.get(word) / this.total;
+  		double result = (double)this.tree.get(word) / (double)this.total;
   		return result;
+  	}
+
+  	public void writeWordCountFile(String filename){
+
+  		try{
+
+  			//Create new file and FileWriter object to the new file
+  			File file = new File(filename);
+  			FileWriter fw = new FileWriter(filename);
+
+  			// First line of file
+  			String str = "totalWordCount: " + this.getTotalWordCount() + "\n";
+  			fw.write(str); 
+
+  			// Get an array list of each key value pair
+  			ArrayList<KeyValuePair<String, Integer>> data = this.tree.entrySet();
+
+  			for (KeyValuePair<String, Integer> entry: data){
+
+  				str = data.getKey() + " " + entry.getValue() + "\n";
+  				fw.write(str);
+  			}
+  			fw.close();
+  		}
+  		catch (IOException e) 
+      	{
+      		System.out.println("WordCounter.writeWordCountFile():: error writing to file");
+    	}
+  	}
+
+  	public static void main(String[] args){
+
+  		WordCounter wc = new WordCounter();
+  		wc.analyze("counttest.txt");
+  		System.out.println(wc.tree);
+  		System.out.println(wc.getTotalWordCount());
+  		System.out.println(wc.getUniqueWordCount());
+  		System.out.println(wc.getCount("it"));
+  		System.out.println(wc.getFrequency("it"));
   	}
 }
