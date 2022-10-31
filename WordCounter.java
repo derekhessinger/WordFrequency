@@ -26,6 +26,7 @@ public class WordCounter{
 		this.total = 0;
 	}
 
+
 	//Reads file and prints out board
 	public void analyze(String filename) {
 
@@ -120,11 +121,11 @@ public class WordCounter{
   			fw.write(str); 
 
   			// Get an array list of each key value pair
-  			ArrayList<KeyValuePair<String, Integer>> data = this.tree.entrySet();
+  			ArrayList<MapSet.KeyValuePair<String, Integer>> data = this.tree.entrySet();
 
-  			for (KeyValuePair<String, Integer> entry: data){
+  			for (MapSet.KeyValuePair<String, Integer> entry: data){
 
-  				str = data.getKey() + " " + entry.getValue() + "\n";
+  				str = entry.getKey() + " " + entry.getValue() + "\n";
   				fw.write(str);
   			}
   			fw.close();
@@ -144,5 +145,6 @@ public class WordCounter{
   		System.out.println(wc.getUniqueWordCount());
   		System.out.println(wc.getCount("it"));
   		System.out.println(wc.getFrequency("it"));
+  		wc.writeWordCountFile("output.txt");
   	}
 }
