@@ -195,7 +195,10 @@ public class WordCounter{
   			wc.writeWordCountFile("OUTPUT" + str);
   			long end =  System.currentTimeMillis();
   			System.out.println("Time elapsed for " + str + ": " + (end - start));
+  			System.out.println("Unique word count: "+ wc.getUniqueWordCount());
   		}
+
+  		// Possible extension: use commonwords.txt to create BST, check if each new word is in that bst, if not, then add word to output file bst
 
   		// // Extension to have main method print out top twenty words in file
   		// for (String str : args){
