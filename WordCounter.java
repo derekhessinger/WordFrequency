@@ -136,15 +136,104 @@ public class WordCounter{
     	}
   	}
 
+  	// Reads a word count file and reconstructs tree from it
+  	public void readWordCountFile(String filename){
+
+  		try{
+
+  			// Create file reader with file passed
+  			FileReader fr = new FileReader(filename);
+
+  			// Create buffered reader with file reader passed
+  			BufferedReader br = new BufferedReader(fr);
+
+  			// Read the first line so it is not included in tree
+  			String line = br.readLine();
+
+  			// Read again to get to first line of data in file
+  			line = br.readLine();
+
+  			// While the line is not equal to null
+  			while (line != null){
+
+  				// Split on anything that isnt a letter or number
+  				String[] words = line.split("[^a-zA-Z0-9']");
+
+  				// Add line to tree
+  				this.tree.put(words[0], Integer.parseInt(words[1]));
+
+  				// Go to next line
+  				line = br.readLine();
+  			}
+  		}
+  		catch(FileNotFoundException ex) {
+
+      	System.out.println("WordCounter.analyze():: unable to open file " + filename );
+    	}
+   		catch(IOException ex) {
+
+    	System.out.println("WordCounter.analyze():: error reading file " + filename);
+    	}
+  	}
+
   	public static void main(String[] args){
 
   		WordCounter wc = new WordCounter();
-  		wc.analyze("counttest.txt");
-  		System.out.println(wc.tree);
-  		System.out.println(wc.getTotalWordCount());
-  		System.out.println(wc.getUniqueWordCount());
-  		System.out.println(wc.getCount("it"));
-  		System.out.println(wc.getFrequency("it"));
-  		wc.writeWordCountFile("output.txt");
+  		//Scanner sc = new Scanner(System.in);
+  		// wc.analyze("counttest.txt");
+  		// System.out.println(wc.tree);
+  		// System.out.println(wc.getTotalWordCount());
+  		// System.out.println(wc.getUniqueWordCount());
+  		// System.out.println(wc.getCount("it"));
+  		// System.out.println(wc.getFrequency("it"));
+  		// wc.writeWordCountFile("output.txt");
+  		// wc.readWordCountFile("output.txt");
+  		// System.out.println(wc.tree);
+  		for (String str : args){
+  			long start = System.currentTimeMillis();
+  			wc.analyze(str);
+  			wc.writeWordCountFile("OUTPUT" + str);
+  			long end =  System.currentTimeMillis();
+  			System.out.println("Time elapsed for " + str + ": " + (end - start));
+  		}
+
+  		// // Extension to have main method print out top twenty words in file
+  		// for (String str : args){
+
+  		// 	try{
+
+	  	// 		// Create file reader and buffered reader
+	  	// 		FileReader fr = new FileReader("OUTPUT" + str);
+	  	// 		BufferedReader br = new BufferedReader(fr);
+
+	  	// 		// Read the first line so it is not included in tree
+	  	// 		String line = br.readLine();
+
+	  	// 		// Read again to get to first line of data in file
+	  	// 		line = br.readLine();
+
+	  	// 		// While the line is not equal to null
+	  	// 		for (int i = 0; i < 20; i++){
+
+	  	// 			// Split on anything that isnt a letter or number
+	  	// 			String[] words = line.split("[^a-zA-Z0-9']");
+
+	  	// 			// Print out contents
+	  	// 			System.out.println(words[0]);
+
+	  	// 			i++;
+
+	  	// 			line = br.readLine();
+	  	// 		}
+  		// 	}
+  		// 	catch(FileNotFoundException ex) {
+
+	   //    	System.out.println("WordCounter.analyze():: unable to open file " + str );
+	   //  	}
+	   // 		catch(IOException ex) {
+
+	   //  	System.out.println("WordCounter.analyze():: error reading file " + str);
+	   //  	}
+  		// }
   	}
 }
