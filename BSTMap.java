@@ -189,6 +189,7 @@ public class BSTMap<K extends Comparable<K>, V> implements MapSet<K, V>{
 		keySet(cur.right, output);
 	}
 
+	// Returns an array list of all values in tree
 	public ArrayList<V> values(){
 
 		ArrayList<V> output = new ArrayList<V>();
@@ -196,6 +197,7 @@ public class BSTMap<K extends Comparable<K>, V> implements MapSet<K, V>{
 		return output;
 	}
 
+	// Helper function to recursively get all values in tree
 	private void values(Node cur, ArrayList<V> output){
 
 		if (cur == null){
@@ -225,11 +227,13 @@ public class BSTMap<K extends Comparable<K>, V> implements MapSet<K, V>{
 		return kvpList;
 	}
 
+	// To string method
 	public String toString(){
 
 		return toString(root, 0);
 	}
 
+	// Helper method to recursively create string in BST format
 	private String toString(Node root, int counter){
 
 		String str = "";
@@ -245,15 +249,18 @@ public class BSTMap<K extends Comparable<K>, V> implements MapSet<K, V>{
 		}
 		else{
 
+			// increment each indent with respect to level
 			str += "\t".repeat(counter) + root.kvp.toString() + "\n";
 		}
 
 		if (root.left != null){
 
+			// increment each indent with respect to level
 			str += "left:\t" + toString(root.left, counter+1);
 		}
 		if (root.right != null){
 
+			// increment each indent with respect to level
 			str += "right:\t" + toString(root.right, counter+1);
 		}
 		return str;
@@ -266,7 +273,20 @@ public class BSTMap<K extends Comparable<K>, V> implements MapSet<K, V>{
 		map.put("two", 2);
 		map.put("three", 3);
 
+		// Tests for BSTMap
+		System.out.println(map.getObjType());
+		System.out.println(map.get("one"));
+		System.out.println(map.size());
+		map.clear();
+		System.out.println(map);
+		map.put("one", 1);
+		map.put("two", 2);
+		map.put("three", 3);
+		System.out.println(map.containsKey("one"));
+		System.out.println(map.keySet())
+		System.out.println(map.values())
 		System.out.println(map.entrySet());
+		
 
 	}
 }

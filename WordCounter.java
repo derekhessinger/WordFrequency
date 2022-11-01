@@ -20,14 +20,49 @@ public class WordCounter{
 	BSTMap<String, Integer> tree;
 	int total;
 
+	// Constructor
 	public WordCounter(){
 
 		this.tree = new BSTMap<String, Integer>();
 		this.total = 0;
 	}
 
+	// Creates a BSTMap of commmon words file
+	public BSTMap<String, Integer> commonWords(){
+		try{
+
+			// Create BST object
+			BSTMap<String, Integer> map = new BSTMap<String, Integer>();
+
+			// Create file reader and buffered reader for commonwords.txt
+			FileReader fr = new FileReader("commonwords.txt");
+			BufferedReader br = new BufferedReader(fr);
+
+			String line = br.readLine();
+
+			while (line != null){
+
+				map.put(line, 1);
+				line = br.readLine();
+			}
+			return map;
+		}
+		catch(FileNotFoundException ex) {
+
+      	System.out.println("WordCounter.analyze():: unable to open file commonwords.txt");
+    	}
+   		catch(IOException ex) {
+
+    	System.out.println("WordCounter.analyze():: error reading file commonwords.txt");
+    	}
+    	return null;
+	}
+
 
 	//Reads file and prints out board
+	// Added extension where the method creates a BST of the file commmonwords.txt
+	// and then checks if the word being processed in file name is in the 
+	//commonwords BST, and if not, then it is added to the new filename BST
 	public void analyze(String filename) {
 
 		try {
@@ -55,21 +90,28 @@ public class WordCounter{
 					// Check for a word of length 0 and not process it
 					if (word.length()>0){
 
-						// If the word is already in the tree
-						if (this.tree.containsKey(word) == true){
+						BSTMap<String, Integer> cwMap = commonWords();
 
-							// Get its value and update by one
-							int value = this.tree.get(word);
-							value += 1;
-							this.tree.put(word, value);
-							this.total += 1;
-						}
+						if (cwMap.containsKey(word) == false){
 
-						// If the word is not in the tree
-						else{
+							// If the word is already in the tree
+							if (this.tree.containsKey(word) == true){
 
-							this.tree.put(word, 1);
-							this.total += 1;
+								// Get its value and update by one
+								int value = this.tree.get(word);
+								value += 1;
+								this.tree.put(word, value);
+								this.total += 1;
+								System.out.println(this.total);
+							}
+
+							// If the word is not in the tree
+							else{
+
+								this.tree.put(word, 1);
+								this.total += 1;
+								System.out.println(this.total);
+								}
 							}
 						}
 				  	}
@@ -87,27 +129,32 @@ public class WordCounter{
     	}
   	}
 
+  	// Returns total word count
   	public int getTotalWordCount(){
 
   		return this.total;
   	}
 
+  	// Returns unique word count
   	public int getUniqueWordCount(){
 
   		return this.tree.size();
   	}
 
+  	// Returns count of single word
   	public int getCount(String word){
 
   		return this.tree.get(word);
   	}
 
+  	// Returns frequency of word
   	public double getFrequency(String word){
 
   		double result = (double)this.tree.get(word) / (double)this.total;
   		return result;
   	}
 
+  	// Writes output file 
   	public void writeWordCountFile(String filename){
 
   		try{
@@ -178,65 +225,19 @@ public class WordCounter{
 
   	public static void main(String[] args){
 
+  		// Tests for WordCounter
+
   		WordCounter wc = new WordCounter();
-  		//Scanner sc = new Scanner(System.in);
-  		// wc.analyze("counttest.txt");
-  		// System.out.println(wc.tree);
-  		// System.out.println(wc.getTotalWordCount());
-  		// System.out.println(wc.getUniqueWordCount());
-  		// System.out.println(wc.getCount("it"));
-  		// System.out.println(wc.getFrequency("it"));
-  		// wc.writeWordCountFile("output.txt");
-  		// wc.readWordCountFile("output.txt");
-  		// System.out.println(wc.tree);
-  		for (String str : args){
-  			long start = System.currentTimeMillis();
-  			wc.analyze(str);
-  			wc.writeWordCountFile("OUTPUT" + str);
-  			long end =  System.currentTimeMillis();
-  			System.out.println("Time elapsed for " + str + ": " + (end - start));
-  			System.out.println("Unique word count: "+ wc.getUniqueWordCount());
-  		}
-
-  		// Possible extension: use commonwords.txt to create BST, check if each new word is in that bst, if not, then add word to output file bst
-
-  		// // Extension to have main method print out top twenty words in file
-  		// for (String str : args){
-
-  		// 	try{
-
-	  	// 		// Create file reader and buffered reader
-	  	// 		FileReader fr = new FileReader("OUTPUT" + str);
-	  	// 		BufferedReader br = new BufferedReader(fr);
-
-	  	// 		// Read the first line so it is not included in tree
-	  	// 		String line = br.readLine();
-
-	  	// 		// Read again to get to first line of data in file
-	  	// 		line = br.readLine();
-
-	  	// 		// While the line is not equal to null
-	  	// 		for (int i = 0; i < 20; i++){
-
-	  	// 			// Split on anything that isnt a letter or number
-	  	// 			String[] words = line.split("[^a-zA-Z0-9']");
-
-	  	// 			// Print out contents
-	  	// 			System.out.println(words[0]);
-
-	  	// 			i++;
-
-	  	// 			line = br.readLine();
-	  	// 		}
-  		// 	}
-  		// 	catch(FileNotFoundException ex) {
-
-	   //    	System.out.println("WordCounter.analyze():: unable to open file " + str );
-	   //  	}
-	   // 		catch(IOException ex) {
-
-	   //  	System.out.println("WordCounter.analyze():: error reading file " + str);
-	   //  	}
-  		// }
+  		Scanner sc = new Scanner(System.in);
+  		wc.analyze("counttest.txt");
+  		System.out.println(wc.tree);
+  		System.out.println(wc.getTotalWordCount());
+  		System.out.println(wc.getUniqueWordCount());
+  		System.out.println(wc.getCount("it"));
+  		System.out.println(wc.getFrequency("it"));
+  		wc.writeWordCountFile("output.txt");
+  		wc.readWordCountFile("output.txt");
+  		System.out.println(wc.tree);
+  		System.out.println(wc.commonWords());
   	}
 }
