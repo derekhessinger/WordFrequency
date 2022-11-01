@@ -102,7 +102,7 @@ public class WordCounter{
 								value += 1;
 								this.tree.put(word, value);
 								this.total += 1;
-								System.out.println(this.total);
+								//System.out.println(this.total);
 							}
 
 							// If the word is not in the tree
@@ -110,7 +110,7 @@ public class WordCounter{
 
 								this.tree.put(word, 1);
 								this.total += 1;
-								System.out.println(this.total);
+								//System.out.println(this.total);
 								}
 							//}
 						}
