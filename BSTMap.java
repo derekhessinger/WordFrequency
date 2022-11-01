@@ -283,8 +283,8 @@ public class BSTMap<K extends Comparable<K>, V> implements MapSet<K, V>{
 		map.put("two", 2);
 		map.put("three", 3);
 		System.out.println(map.containsKey("one"));
-		System.out.println(map.keySet())
-		System.out.println(map.values())
+		System.out.println(map.keySet());
+		System.out.println(map.values());
 		System.out.println(map.entrySet());
 		
 

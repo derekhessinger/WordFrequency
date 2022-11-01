@@ -28,35 +28,35 @@ public class WordCounter{
 	}
 
 	// Creates a BSTMap of commmon words file
-	public BSTMap<String, Integer> commonWords(){
-		try{
+	// public BSTMap<String, Integer> commonWords(){
+	// 	try{
 
-			// Create BST object
-			BSTMap<String, Integer> map = new BSTMap<String, Integer>();
+	// 		// Create BST object
+	// 		BSTMap<String, Integer> map = new BSTMap<String, Integer>();
 
-			// Create file reader and buffered reader for commonwords.txt
-			FileReader fr = new FileReader("commonwords.txt");
-			BufferedReader br = new BufferedReader(fr);
+	// 		// Create file reader and buffered reader for commonwords.txt
+	// 		FileReader fr = new FileReader("commonwords.txt");
+	// 		BufferedReader br = new BufferedReader(fr);
 
-			String line = br.readLine();
+	// 		String line = br.readLine();
 
-			while (line != null){
+	// 		while (line != null){
 
-				map.put(line, 1);
-				line = br.readLine();
-			}
-			return map;
-		}
-		catch(FileNotFoundException ex) {
+	// 			map.put(line, 1);
+	// 			line = br.readLine();
+	// 		}
+	// 		return map;
+	// 	}
+	// 	catch(FileNotFoundException ex) {
 
-      	System.out.println("WordCounter.analyze():: unable to open file commonwords.txt");
-    	}
-   		catch(IOException ex) {
+ //      	System.out.println("WordCounter.analyze():: unable to open file commonwords.txt");
+ //    	}
+ //   		catch(IOException ex) {
 
-    	System.out.println("WordCounter.analyze():: error reading file commonwords.txt");
-    	}
-    	return null;
-	}
+ //    	System.out.println("WordCounter.analyze():: error reading file commonwords.txt");
+ //    	}
+ //    	return null;
+	// }
 
 
 	//Reads file and prints out board
@@ -90,9 +90,9 @@ public class WordCounter{
 					// Check for a word of length 0 and not process it
 					if (word.length()>0){
 
-						BSTMap<String, Integer> cwMap = commonWords();
+						//BSTMap<String, Integer> cwMap = commonWords();
 
-						if (cwMap.containsKey(word) == false){
+						//if (cwMap.containsKey(word) == false){
 
 							// If the word is already in the tree
 							if (this.tree.containsKey(word) == true){
@@ -112,7 +112,7 @@ public class WordCounter{
 								this.total += 1;
 								System.out.println(this.total);
 								}
-							}
+							//}
 						}
 				  	}
 				  	line = br.readLine();
@@ -225,19 +225,20 @@ public class WordCounter{
 
   	public static void main(String[] args){
 
-  		// Tests for WordCounter
-
   		WordCounter wc = new WordCounter();
-  		Scanner sc = new Scanner(System.in);
-  		wc.analyze("counttest.txt");
-  		System.out.println(wc.tree);
-  		System.out.println(wc.getTotalWordCount());
-  		System.out.println(wc.getUniqueWordCount());
-  		System.out.println(wc.getCount("it"));
-  		System.out.println(wc.getFrequency("it"));
-  		wc.writeWordCountFile("output.txt");
-  		wc.readWordCountFile("output.txt");
-  		System.out.println(wc.tree);
-  		System.out.println(wc.commonWords());
+
+  		wc.analyze(args[0]);
+  		wc.writeWordCountFile(args[0]);
+  		// Tests for WordCounter
+  		// wc.analyze("counttest.txt");
+  		// System.out.println(wc.tree);
+  		// System.out.println(wc.getTotalWordCount());
+  		// System.out.println(wc.getUniqueWordCount());
+  		// System.out.println(wc.getCount("it"));
+  		// System.out.println(wc.getFrequency("it"));
+  		// wc.writeWordCountFile("output.txt");
+  		// wc.readWordCountFile("output.txt");
+  		// System.out.println(wc.tree);
+  		// System.out.println(wc.commonWords());
   	}
 }
